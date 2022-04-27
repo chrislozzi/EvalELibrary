@@ -28,7 +28,7 @@ CREATE TABLE T_Themes (
 CREATE TABLE T_Customers (
 	IdCustomer 		int(4) PRIMARY KEY AUTO_INCREMENT,
 	LastName 		varchar(30) NOT NULL,
-	FirstNameName 	varchar(30) NOT NULL,
+	FirstName	 	varchar(30) NOT NULL,
 	Email 			varchar(40) NOT NULL UNIQUE,
 	Address 		varchar(50) NOT NULL ,
 	Phone 			varchar(20) NOT NULL ,
@@ -38,7 +38,7 @@ CREATE TABLE T_Customers (
 -- - Construction de la tables de correspondance entre les themes et les livres--
 -- ------------------------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `t_themeitem` (
+CREATE TABLE `t_themeitems` (
   `IdBook` int(4) NOT NULL,
   `IdTheme` int(4) NOT NULL,
   PRIMARY KEY (`IdBook`,`IdTheme`),
@@ -56,7 +56,7 @@ CREATE TABLE T_Orders (
 	Date				date
 	)ENGINE = InnoDB;
 
-CREATE TABLE T_OrderItem (
+CREATE TABLE T_OrderItems (
 	IdOrder INT(4) NOT NULL,
 	IdBook INT(4) NOT NULL,
 	Quantity int(4) not null DEFAULT 0, 
@@ -82,9 +82,10 @@ INSERT INTO T_Books ( Title, Author, UnitaryPrice ) VALUES ( 'Ballade des pendus
 INSERT INTO T_Books ( Title, Author, UnitaryPrice ) VALUES ( 'La soupe aux choux'  ,'Mère Grand', 20 );
 INSERT INTO T_Books ( Title, Author, UnitaryPrice ) VALUES ( 'Veggie toi'  ,'Lami des Bêtes', 5 );
 INSERT INTO T_Books ( Title, Author, UnitaryPrice ) VALUES ( 'Martin Eden'  ,'Jack London', 20 );
-INSERT INTO T_Customers ( LastName, FirstNameName,Email, Address,Phone,Password) VALUES ( 'Robert'  , 'Refort', 'rob.red@fee.tcr','4 avenue du Lac, Puteaux',45109766,123 );
-INSERT INTO T_Customers ( LastName, FirstNameName,Email, Address,Phone,Password) VALUES ( 'Nasser'  , 'Artmen', 'nes.art@bleu.rtc','75 route de la gloire, Nice',14569875,456 );
-INSERT INTO T_Customers ( LastName, FirstNameName,Email, Address,Phone,Password) VALUES ( 'Florence'  , 'Little', 'flo.lite@coldmail.frr','1 avenue de la mer Roubaix',46574659,789 );
+INSERT INTO T_Customers ( LastName, FirstName,Email, Address,Phone,Password) VALUES ( 'Robert'  , 'Refort', 'rob.red@fee.tcr','4 avenue du Lac, Puteaux',45109766,123 );
+INSERT INTO T_Customers ( LastName, FirstName,Email, Address,Phone,Password) VALUES ( 'Nasser'  , 'Artmen', 'nes.art@bleu.rtc','75 route de la gloire, Nice',14569875,456 );
+INSERT INTO T_Customers ( LastName, FirstName,Email, Address,Phone,Password) VALUES ( 'Florence'  , 'Little', 'flo.lite@coldmail.frr','1 avenue de la mer Roubaix',46574659,789 );
+INSERT INTO T_Themes ( ThemeName ) VALUES ( 'Occasion');
 INSERT INTO T_Themes ( ThemeName ) VALUES ( 'Voyage');
 INSERT INTO T_Themes ( ThemeName ) VALUES ( 'Jeunesse');
 INSERT INTO T_Themes ( ThemeName ) VALUES ( 'Cuisine');

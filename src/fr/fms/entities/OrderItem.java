@@ -9,7 +9,7 @@ package fr.fms.entities;
  */
 public class OrderItem {
 	private int idOrder;
-	private int idArticle;
+	private int idBook;
 	private int quantity;
 
 	
@@ -18,23 +18,23 @@ public class OrderItem {
 	 * @param idArticle
 	 * @param quantity
 	 */
-	public OrderItem(int idOrder, int idArticle, int quantity) {
+	public OrderItem(int idOrder, int idBook, int quantity) {
 		setIdOrder(idOrder);
-		setIdArticle(idArticle);
+		setIdArticle(idBook);
 		setQuantity(quantity);
 		
 	}
 	/**
 	 * @return the idArticle
 	 */
-	public int getIdArticle() {
-		return idArticle;
+	public int getIdBook() {
+		return idBook;
 	}
 	/**
 	 * @param idArticle the idArticle to set
 	 */
-	public void setIdArticle(int idArticle) {
-		this.idArticle = idArticle;
+	public void setIdArticle(int idBook) {
+		this.idBook = idBook;
 	}
 	/**
 	 * @return the idOrder
@@ -60,6 +60,10 @@ public class OrderItem {
 	 */
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+	@Override
+	public String toString() {
+		return "OrderItem [idOrder=" + idOrder + ", idBook=" + idBook + ", quantity=" + quantity + "]";
 	}
 	
 	

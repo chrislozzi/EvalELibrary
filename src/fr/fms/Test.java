@@ -5,8 +5,10 @@ package fr.fms;
 
 
 import fr.fms.dao.BookDao;
+import fr.fms.dao.CustomerDao;
 import fr.fms.dao.ThemeDao;
 import fr.fms.entities.Book;
+import fr.fms.entities.Customer;
 import fr.fms.entities.Theme;
 
 /**
@@ -16,8 +18,21 @@ import fr.fms.entities.Theme;
 public class Test {
 	public static void main(String[] args) {
 
+/*******************************************************************************************************/
+/**											Test DaoCustomer									      **/
+/*******************************************************************************************************/			
+		//Affichage de tous les utilisateurs
+		/*
+		 * new CustomerDao().readAll().forEach(book -> { System.out.println(book) ;});
+		 */
 		
-
+		//Créer un utilisateur
+//		new CustomerDao().create(new Customer("246","Chris","Laotsi","chris.laotsi@vert.efr",
+//											  "4 rue de la pie qui boit, Saint Malot","7953125"));
+		
+		//Affichage d'un utilisateur
+//		System.out.println(new CustomerDao().read(3));
+		
 /*******************************************************************************************************/
 /**											Test DaoBook										      **/
 /*******************************************************************************************************/	
@@ -54,11 +69,24 @@ public class Test {
 //			System.out.println(theme)
 //			;});
 		
+		//Affiche un thème
+//		System.out.println(new ThemeDao().read(1));
+		
+		//Créer un Thème
+		
 		
 /*******************************************************************************************************/
-/**											Test DaoTheme										      **/
+/**											Test DaoThemeItem									      **/
 /*******************************************************************************************************/
-		//Affichage de tous les thèmes d'un livre
+		//Affichage de tous les livres d'un thème
+//		new BookDao().readAllByThemeId(10).forEach(book -> {			
+//			System.out.println(book)
+//			;});
+		
+/*******************************************************************************************************/
+/**											Test DaoThemeItem									      **/
+/*******************************************************************************************************/		
+		//Créer une commande
 		
 
 	}

@@ -93,7 +93,7 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return centerString(String.valueOf(idBook)) + centerString(title) + centerString(author) + centerString(String.valueOf(unitaryPrice));
+		return centerString(String.valueOf(idBook)) + String.valueOf(centerString(title)) + String.valueOf(centerString(author)) + centerString(String.valueOf(unitaryPrice));
 	}
 	
 	public static String centerString(String str) {

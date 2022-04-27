@@ -2,8 +2,10 @@ package fr.fms.dao;
 
 
 import fr.fms.entities.Book;
+import fr.fms.entities.Customer;
 import fr.fms.entities.Order;
 import fr.fms.entities.OrderItem;
+import fr.fms.entities.Theme;
 
 
 public class DaoFactory {
@@ -12,12 +14,12 @@ public class DaoFactory {
 		return new BookDao();		
 	}
 	
-	public static Dao<User> getUserDao() {
-		return new UserDao();
+	public static Dao<Customer> getUserDao() {
+		return new CustomerDao();
 	}
 	
- 	public static Dao<Category> getCategoryDao() {
- 		return new CategoryDao();
+ 	public static Dao<Theme> getCategoryDao() {
+ 		return new ThemeDao();
  	}
  	
  	public static Dao<Order> getOrderDao() {

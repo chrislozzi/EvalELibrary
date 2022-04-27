@@ -17,20 +17,8 @@ import fr.fms.entities.Book;
 
 public class BookDao implements Dao<Book> {
 
-	
-//	public boolean create(Book book) {
-//		try (Statement statement = connection.createStatement()){
-//			String str = "INSERT INTO T_Books (Title, Author, UnitaryPrice)"
-//					+ " VALUES ('"+ book.getTitle()+"' ,'" + book.getAuthor() + "',"+ book.getUnitaryPrice() +" );";			
-//			int row = statement.executeUpdate(str);
-//			if(row == 1)		return true;
-//		} catch (SQLException e) {
-//			logger.log(Level.SEVERE,"pb sql sur la création d'un article");
-//		} 		
-//		return false;
-//	}
 
-	//exemple d'insertion avec preparedStatement -> évite les attaques par injection sql
+	//Insertion avec preparedStatement -> évite les attaques par injection sql
 	@Override
 	public boolean create(Book obj) {
 		boolean isCreated = false;
@@ -107,9 +95,12 @@ public class BookDao implements Dao<Book> {
 		return articles;
 	}
 
-	public ArrayList<Book> readAllByThemId(int id) {
+	public ArrayList<Book> readAllByThemeId(int id) {
 		ArrayList<Book> articles = new ArrayList<Book>();
-		String str = "SELECT * FROM T_Books where idTheme=" + id;		
+		String str = "SELECT t_books.IdBook,Title,Author,UnitaryPrice "
+					+ "FROM t_books,t_themes,t_themeitem "
+					+ "WHERE t_books.IdBook=t_themeitem.IdBook AND t_themeitem.IdTheme=t_themes.IdTheme "
+					+ "AND t_themes.IdTheme=" + id +";" ;	
 		try(Statement statement = connection.createStatement()){
 			try(ResultSet resultSet = statement.executeQuery(str)){ 			
 				while(resultSet.next()) {

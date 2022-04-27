@@ -20,14 +20,15 @@ public class CustomerDao implements Dao<Customer> {
 
 	@Override
 	public boolean create(Customer obj) {
-		String str = "INSERT INTO T_Customers (LastName,FirstName,Email,address,Phone,Password) VALUES (?,?,?,?,?,?);";
+		String str = "INSERT INTO T_Customers (Password,LastName,FirstName,Email,Address,Phone) VALUES (?,?,?,?,?,?);";
 		try (PreparedStatement ps = connection.prepareStatement(str)){
-			ps.setString(1, obj.getEmail());
-			ps.setString(2, obj.getEmail());
-			ps.setString(3, obj.getEmail());
-			ps.setString(4, obj.getPassword());			
-			ps.setInt(5, obj.getPhone());			
-			ps.setString(4, obj.getPassword());			
+			ps.setString(1, obj.getPassword());	
+			ps.setString(2, obj.getLastName());
+			ps.setString(3, obj.getFirstName());
+			ps.setString(4, obj.getEmail());
+			ps.setString(5, obj.getAddress());			
+			ps.setString(6, obj.getPhone());			
+					
 			if( ps.executeUpdate() == 1)	return true;				
 		} catch (SQLException e) {
 			//e.printStackTrace();
@@ -42,7 +43,8 @@ public class CustomerDao implements Dao<Customer> {
 			String str = "SELECT * FROM T_Customers where IdCustomer=" + id + ";";									
 			ResultSet rs = statement.executeQuery(str);
 			if(rs.next()) 
-				return new Customer(rs.getInt(1) , rs.getString(2) , rs.getString(3));
+				return new Customer(rs.getInt(1) , rs.getString(2) , rs.getString(3),
+						rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7));
 		} catch (SQLException e) {
 			//e.printStackTrace();
 			logger.severe("pb Sql :" + e);
@@ -52,13 +54,19 @@ public class CustomerDao implements Dao<Customer> {
 
 	@Override
 	public boolean update(Customer obj) {
-		try (Statement statement = connection.createStatement()){
-			String str = "UPDATE T_Customers set Login='" + obj.getLogin() +"' , " +
-							                "Password='" 		+ obj.getPwd() +"' , " + " where idCustomer=" + obj.getId() + ";";			
-			statement.executeUpdate(str);
+		boolean isUpdated = false;
+		String str = "UPDATE T_Customers set Password = ? ,LastName = ? ,FirstName = ? ,Email = ? ,Address = ?,Phone = ?;";
+		try (PreparedStatement ps = connection.prepareStatement(str)){
+			ps.setString(6, obj.getPassword());	
+			ps.setString(1, obj.getLastName());
+			ps.setString(2, obj.getFirstName());
+			ps.setString(3, obj.getEmail());
+			ps.setString(4, obj.getPassword());			
+			ps.setString(5, obj.getPhone());					
+			if( ps.executeUpdate() == 1) isUpdated = true;			
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return false;
+			return isUpdated;
 		} 	
 		return true;
 	}
@@ -66,7 +74,7 @@ public class CustomerDao implements Dao<Customer> {
 	@Override
 	public boolean delete(Customer obj) {
 		try (Statement statement = connection.createStatement()){
-			String str = "DELETE FROM T_Customer where IdCustomer=" + obj.getId() + ";";									
+			String str = "DELETE FROM T_Customer where IdCustomer=" + obj.getCustomerId() + ";";									
 			statement.executeUpdate(str);		
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -77,21 +85,25 @@ public class CustomerDao implements Dao<Customer> {
 
 	@Override
 	public ArrayList<Customer> readAll() {
-		ArrayList<Customer> users = new ArrayList<Customer>();
+		ArrayList<Customer> customers = new ArrayList<Customer>();
 		String strSql = "SELECT * FROM T_Customers";		
 		try(Statement statement = connection.createStatement()){
 			try(ResultSet resultSet = statement.executeQuery(strSql)){ 			
 				while(resultSet.next()) {
-					int rsId = resultSet.getInt(1);	
-					String rsLogin = resultSet.getString(2);
-					String rsPassword = resultSet.getString(3);							
-					users.add((new Customer(rsId,rsLogin,rsPassword)));						
+					int rsIdCustomer = resultSet.getInt(1);	
+					String rsPassword = resultSet.getString(2);
+					String rsLastName = resultSet.getString(3);							
+					String rsFirstName = resultSet.getString(4);							
+					String rsEmail = resultSet.getString(5);							
+					String rsAddress = resultSet.getString(6);							
+					String rsPhone = resultSet.getString(7);											
+					customers.add((new Customer(rsIdCustomer,rsPassword,rsLastName,rsFirstName,rsEmail,rsAddress,rsPhone)));						
 				}	
 			}
 		} catch (SQLException e) {
 			//e.printStackTrace();
 			logger.severe("pb Sql :" + e);
 		}			
-		return users;
+		return customers;
 	}
 }

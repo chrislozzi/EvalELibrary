@@ -1,9 +1,12 @@
 package fr.fms.dao;
 
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+
 import fr.fms.entities.Book;
 import fr.fms.entities.Theme;
 
@@ -11,8 +14,16 @@ public class ThemeDao implements Dao<Theme>{
 
 	@Override
 	public boolean create(Theme obj) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean isCreated = false;
+		String str = "INSERT INTO T_Themes (IdTheme, ThemeName) VALUES (?,?);";	
+		try (PreparedStatement ps = connection.prepareStatement(str)){
+			ps.setInt(1, obj.getIdTheme());
+			ps.setString(2, obj.getThemeName());		
+			if( ps.executeUpdate() == 1) isCreated = true;
+		} catch (SQLException e) {
+			logger.log(Level.SEVERE,"pb sql sur la création d'un livre");
+		}
+		return isCreated; 		
 	}
 
 	@Override
@@ -55,5 +66,5 @@ public class ThemeDao implements Dao<Theme>{
 		}		
 		return null;
 	}
-
+	
 }

@@ -10,12 +10,11 @@ public class OrderItemDao implements Dao<OrderItem> {
 
 	@Override
 	public boolean create(OrderItem obj) {
-		String str = "INSERT INTO T_Order_Items (IdArticle, Quantity, UnitaryPrice, IdOrder) VALUES (?,?,?,?);";	
+		String str = "INSERT INTO T_OrderItems (IdOrder, IdBook, Quantity) VALUES (?,?,?);";	
 		try (PreparedStatement ps = connection.prepareStatement(str)){	
-			ps.setInt(1, obj.getIdArticle());
-			ps.setInt(2, obj.getQuantity());
-			ps.setDouble(3, obj.getUnitaryPrice());
-			ps.setInt(4, obj.getIdOrder());
+			ps.setInt(1, obj.getIdOrder());
+			ps.setInt(2, obj.getIdBook());
+			ps.setInt(3, obj.getQuantity());			
 			
 			ps.executeUpdate();			
 			return true;
