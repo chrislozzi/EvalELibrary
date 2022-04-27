@@ -21,10 +21,10 @@ public class Book {
 	 * @param unitaryPrice
 	 */
 	public Book(int idBook, String title, String author, double unitaryPrice) {
-		this.idBook = idBook;
-		this.title = title;
-		this.author = author;
-		this.unitaryPrice = unitaryPrice;
+		setIdBook(idBook);
+		setTitle(title);
+		setAuthor(author);
+		setUnitaryPrice(unitaryPrice);
 	}
 	
 	
@@ -34,9 +34,9 @@ public class Book {
 	 * @param unitaryPrice
 	 */
 	public Book(String title, String author, double unitaryPrice) {
-		this.title = title;
-		this.author = author;
-		this.unitaryPrice = unitaryPrice;
+		setTitle(title);
+		setAuthor(author);
+		setUnitaryPrice(unitaryPrice);
 	}
 
 

@@ -11,34 +11,35 @@ import java.util.Date;
  */
 public class Order {
 	private int idOrder;
-	private int idUser;
+	private int idCustomer;
 	private Date date;
 	private double amount;
 	
+	
+	
 	/**
 	 * @param idOrder
-	 * @param idUser
+	 * @param idCustomer
 	 * @param date
 	 * @param amount
 	 */
-	public Order(int idOrder, int idUser, Date date, double amount) {
-		this.idOrder = idOrder;
-		this.idUser = idUser;
-		this.date = date;
-		this.amount = amount;
+	public Order(int idOrder, int idCustomer, Date date, double amount) {
+		setIdOrder(idOrder);
+		setIdCustomer(idCustomer);
+		setDate(date);
+		setAmount(amount);
+		
 	}
-
 	/**
-	 * @param idUser
+	 * @param idCustomer
 	 * @param date
 	 * @param amount
 	 */
-	public Order(int idUser, Date date, double amount) {
-		this.idUser = idUser;
-		this.date = date;
-		this.amount = amount;
+	public Order(int idCustomer, Date date, double amount) {
+		setIdCustomer(idCustomer);
+		setDate(date);
+		setAmount(amount);
 	}
-
 	/**
 	 * @return the idOrder
 	 */
@@ -52,16 +53,16 @@ public class Order {
 		this.idOrder = idOrder;
 	}
 	/**
-	 * @return the idUser
+	 * @return the idCustomer
 	 */
-	public int getIdUser() {
-		return idUser;
+	public int getIdCustomer() {
+		return idCustomer;
 	}
 	/**
-	 * @param idUser the idUser to set
+	 * @param idCustomer the idCustomer to set
 	 */
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
+	public void setIdCustomer(int idCustomer) {
+		this.idCustomer = idCustomer;
 	}
 	/**
 	 * @return the date
@@ -87,5 +88,6 @@ public class Order {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
+	
 	
 }

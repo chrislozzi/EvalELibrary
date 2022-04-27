@@ -19,10 +19,10 @@ public class OrderItem {
 	 * @param quantity
 	 */
 	public OrderItem(int idOrder, int idArticle, int quantity) {
-		super();
-		this.idOrder = idOrder;
-		this.idArticle = idArticle;
-		this.quantity = quantity;
+		setIdOrder(idOrder);
+		setIdArticle(idArticle);
+		setQuantity(quantity);
+		
 	}
 	/**
 	 * @return the idArticle

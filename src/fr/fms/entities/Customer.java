@@ -26,13 +26,12 @@ public class Customer {
 	 * @param phone
 	 */
 	public Customer(String password, String lastName, String firstName, String email, String address, String phone) {
-		super();
-		this.password = password;
-		this.lastName = lastName;
-		this.firstName = firstName;
-		this.email = email;
-		this.address = address;
-		this.phone = phone;
+		setPassword(password);
+		setLastName(lastName);
+		setFirstName(firstName);
+		setEmail(email);
+		setAddress(address);
+		setPhone(phone);
 	}
 	/**
 	 * @param customerId
@@ -43,16 +42,14 @@ public class Customer {
 	 * @param address
 	 * @param phone
 	 */
-	public Customer(int customerId, String password, String lastName, String firstName, String email, String address,
-			String phone) {
-		super();
-		this.customerId = customerId;
-		this.password = password;
-		this.lastName = lastName;
-		this.firstName = firstName;
-		this.email = email;
-		this.address = address;
-		this.phone = phone;
+	public Customer(int customerId, String password, String lastName, String firstName, String email, String address,String phone) {
+		setCustomerId(customerId);
+		setPassword(password);
+		setLastName(lastName);
+		setFirstName(firstName);
+		setEmail(email);
+		setAddress(address);
+		setPhone(phone);
 	}
 	/**
 	 * @return the customerId
