@@ -32,6 +32,7 @@ public class Book {
 	 * @param title
 	 * @param author
 	 * @param unitaryPrice
+	 * @override
 	 */
 	public Book(String title, String author, double unitaryPrice) {
 		setTitle(title);
@@ -87,6 +88,20 @@ public class Book {
 	 */
 	public void setUnitaryPrice(double unitaryPrice) {
 		this.unitaryPrice = unitaryPrice;
+	}
+
+
+	@Override
+	public String toString() {
+		return centerString(String.valueOf(idBook)) + centerString(title) + centerString(author) + centerString(String.valueOf(unitaryPrice));
+	}
+	
+	public static String centerString(String str) {
+		if(str.length() >= 20) return str;
+		String dest = "                    ";
+		int deb = (20 - str.length())/2 ;
+		String data = new StringBuilder(dest).replace( deb, deb + str.length(), str ).toString();
+		return data;
 	}
 	
 	

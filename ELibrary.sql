@@ -26,13 +26,13 @@ CREATE TABLE T_Themes (
 -- - Construction de la tables des utilisateurs                               ---
 -- ------------------------------------------------------------------------------
 CREATE TABLE T_Customers (
-	IdCustomer int(4) PRIMARY KEY AUTO_INCREMENT,
-	LastName varchar(30) NOT NULL,
-	FirstNameName varchar(30) NOT NULL,
-	Email varchar(40) NOT NULL UNIQUE,
-	Address varchar(50) NOT NULL ,
-	Phone int(4) NOT NULL ,
-	Password varchar(20) NOT NULL
+	IdCustomer 		int(4) PRIMARY KEY AUTO_INCREMENT,
+	LastName 		varchar(30) NOT NULL,
+	FirstNameName 	varchar(30) NOT NULL,
+	Email 			varchar(40) NOT NULL UNIQUE,
+	Address 		varchar(50) NOT NULL ,
+	Phone 			varchar(20) NOT NULL ,
+	Password 		varchar(20) NOT NULL
 ) ENGINE = InnoDB;
 -- ------------------------------------------------------------------------------
 -- - Construction de la tables de correspondance entre les themes et les livres--
