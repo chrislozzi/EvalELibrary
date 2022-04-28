@@ -88,6 +88,11 @@ public class Order {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
+	@Override
+	public String toString() {
+		return "Order [idOrder=" + idOrder + ", idCustomer=" + idCustomer + ", date=" + date + ", amount=" + amount
+				+ "]";
+	}
 	
 	
 }

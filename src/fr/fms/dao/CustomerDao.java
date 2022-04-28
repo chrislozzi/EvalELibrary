@@ -31,8 +31,8 @@ public class CustomerDao implements Dao<Customer> {
 					
 			if( ps.executeUpdate() == 1)	return true;				
 		} catch (SQLException e) {
-			//e.printStackTrace();
-			logger.log(Level.SEVERE,"pb sql sur la création d'un utilisateur");
+			e.printStackTrace();
+			//logger.log(Level.SEVERE,"pb sql sur la création d'un utilisateur");
 		} 				
 		return false;
 	}

@@ -6,9 +6,9 @@
  */
 package fr.fms;
 
-import java.util.Scanner;
 
-import fr.fms.business.IELibrary;
+
+import java.util.Scanner;
 import fr.fms.business.IELibraryImpl;
 import fr.fms.entities.Book;
 import fr.fms.entities.Theme;
@@ -21,7 +21,7 @@ public class ELibraryApp {
 	private static String login = null; 
 
 	public static void main(String[] args) {
-		System.out.println("Bonjour et bienvenu dans ma boutique, voici la liste d'books en stock\n");
+		welcome();
 		displayBooks();
 		int choice = 0;
 		while(choice != 8) {
@@ -32,7 +32,7 @@ public class ELibraryApp {
 			break;					
 			case 2 : remBook();
 			break;					
-			case 3 : displayCart(true);
+			case 3 : cartMenu(true);
 			break;					
 			case 4 : displayBooks();
 			break;						
@@ -62,36 +62,52 @@ public class ELibraryApp {
 		System.out.println("8 : sortir de l'application");
 	}
 
-	public static void displayBooks() { 		
-		String titles = Book.centerString("IDENTIFIANT") + Book.centerString("TITRE") + Book.centerString("AUTEUR") + Book.centerString("PRIX");
-		System.out.println(titles);
-		myLibrary.readBooks().forEach(System.out::println);
-	}
+	public static void displayBooks() { 
+		
+		System.out.format("%-4s%-30s%-30s%-10s \n","+----", "+------------------------------", "+------------------------------+", "----------+");
+		System.out.format("|%-4s|%-30s|%-30s|%-10s|\n","Id", "Titre", "Auteur", "Prix");
+		System.out.format("%-4s%-30s%-30s%-10s \n","+----", "+------------------------------", "+------------------------------+", "----------+");
 
+		myLibrary.readBooks().forEach(book -> {			
+			System.out.format("|%-4d|%-30s|%-30s|%-10.2f|\n",book.getIdBook(), book.getTitle(),	book.getAuthor(), book.getUnitaryPrice())
+			;});
+
+		System.out.format("%-4s%-30s%-30s%-10s \n","+----", "+------------------------------", "+------------------------------+", "----------+");
+	}
+	
 	private static void displayBooksByThemeId() {
 		System.out.println("saisissez l'id du thème concerné");
 		int id = scanInt();
 		Theme theme = myLibrary.readOneTheme(id);
-		if(theme != null) {
-			System.out.println("Thème : " + theme.getThemeName());
-			String titles = Book.centerString("IDENTIFIANT") + Book.centerString("TITRE") + Book.centerString("AUTEUR") + Book.centerString("PRIX");
-			System.out.println(titles);
-			myLibrary.readBooksByThemeId(id).forEach(System.out::println);
-		}
-		else System.out.println("ce thème n'existe pas !");
-	}
+		System.out.format("%-4s%-30s%-30s%-10s \n","+----", "-------------------------------", "--------------------------------", "----------+");
+		System.out.format("|%-7s%-69s|\n","THEME : ", theme.getThemeName());
+		System.out.format("%-4s%-30s%-30s%-10s \n","+----", "-------------------------------", "--------------------------------", "----------+");
+		System.out.format("|%-4s|%-30s|%-30s|%-10s|\n","Id", "Titre", "Auteur", "Prix");
+		System.out.format("%-4s%-30s%-30s%-10s \n","+----", "+------------------------------", "+------------------------------+", "----------+");
 
-	private static void displayThemes() {
-		String titles = Theme.centerString("IDENTIFIANT") + Theme.centerString("NOM");
-		System.out.println(titles);
-		myLibrary.readThemes().forEach(System.out::println);		
+		myLibrary.readBooksByThemeId(id) .forEach(book -> {			
+			System.out.format("|%-4d|%-30s|%-30s|%-10.2f|\n",book.getIdBook(), book.getTitle(),	book.getAuthor(), book.getUnitaryPrice())
+			;});
+
+		System.out.format("%-4s%-30s%-30s%-10s \n","+----", "+------------------------------", "+------------------------------+", "----------+");
 	}
+	
+	private static void displayThemes() {
+		System.out.format("%-4s%-20s \n","+----", "+--------------------+");
+		System.out.format("|%-4s|%-20s|\n","Id", "Nom");
+		System.out.format("%-4s%-20s \n","+----", "+--------------------+");
+		myLibrary.readThemes().forEach(theme -> {			
+			System.out.format("|%-4d|%-20s|\n",theme.getIdTheme(), theme.getThemeName())
+			;});
+		System.out.format("%-4s%-20s \n","+----", "+--------------------+");
+	}
+	
 
 	public static void remBook() {
 		System.out.println("Selectionner l'id du livre à supprimer du panier");
 		int id = scanInt();
 		myLibrary.rmFromCart(id);
-		displayCart(false);
+		cartMenu(false);
 	}
 
 	public static void addBook() {
@@ -100,7 +116,7 @@ public class ELibraryApp {
 		Book book = myLibrary.readOneBook(id);
 		if(book != null) {
 			myLibrary.addToCart(book);
-			displayCart(false);
+			cartMenu(false);
 		}
 		else System.out.println("le livre que vous souhaitez ajouter n'existe pas, pb de saisi id");
 	} 
@@ -108,21 +124,23 @@ public class ELibraryApp {
  * 
  * @param flag
  */
-	private static void displayCart(boolean flag) {
-		if(myLibrary.isCartEmpty()) 	System.out.println("PANIER VIDE");
+	private static void cartMenu(boolean flag) {
+		if(myLibrary.isCartEmpty()) System.out.println("*****PANIER VIDE*****");
 		else {
-			System.out.println("CONTENU DU PANIER :");
-			String titles = Book.centerString("IDENTIFIANT") + Book.centerString("DESCRIPTION") + 
-					Book.centerString("MARQUE") + Book.centerString("PRIX") + Book.centerString("QUANTITE");
-			System.out.println(titles);
-			myLibrary.getCart().forEach(a -> System.out.println(a.toString() + Book.centerString(String.valueOf(a.getQuantity()))));
+			displayCart();
 			if(flag) {
 				System.out.println("MONTANT TOTAL : " + myLibrary.getTotal());
 				System.out.println("Souhaitez vous passer commande ? Oui/Non :");
 				if(scan.next().equalsIgnoreCase("Oui")) {
-					if(login == null)	{ 
+					if(login == null)	{ 						
 						System.out.println("Vous devez être connecté pour continuer");
-						connection();
+						System.out.println("1: Se connecter");
+						System.out.println("2: Créer un compte");
+						//A revoir ugly code
+						int choix =scanInt();
+							if(choix ==1)connection();
+							if(choix ==2) newCustomer();							
+													
 					}
 					if(login != null) {
 						int idOrder = myLibrary.order(idCustomer);
@@ -135,6 +153,53 @@ public class ELibraryApp {
 				}
 			}
 		}
+	}
+	public static void displayCart() {
+		System.out.format("%-4s%-30s%-30s%-10s%-8s \n","+----", "+------------------------------", "+------------------------------+", "----------+","--------+");
+		System.out.format("|%-4s|%-30s|%-30s|%-10s|%-8s|\n","Id", "Titre", "Auteur", "Prix", "Quantité");
+		System.out.format("%-4s%-30s%-30s%-10s%-8s \n","+----", "+------------------------------", "+------------------------------+", "----------+","--------+");
+
+		myLibrary.getCart().forEach(article -> {			
+			System.out.format("|%-4d|%-30s|%-30s|%-10.2f|%-8d|\n",article.getIdBook(), article.getTitle(), article.getAuthor(),  
+					article.getUnitaryPrice(), article.getQuantity())
+			;});
+
+		System.out.format("%-4s%-30s%-30s%-10s%-8s \n","+----", "+------------------------------", "+------------------------------+", "----------+","--------+");
+	}
+	/**
+	 * Message de bienvenue
+	 */
+	private static void welcome() {
+		System.out.println();
+		System.out.println("********************************************");
+		System.out.println("    BIENVENU DANS MA LIBRAIRIE EN LIGNE     ");
+		System.out.println("********************************************");		
+		System.out.println();
+	}
+	
+	private static void newCustomer() {
+		if(login != null)	System.out.println("vous êtes déjà connecté");
+		else {
+		System.out.println("Saisissez votre mot de passe:");
+		String password = scan.next();
+		System.out.println("Saisissez votre Nom:");
+		String lastName= scan.next();
+		System.out.println("Saisissez votre prénom:");
+		String firstName= scan.next();
+		System.out.println("Saisissez votre email:");
+		String email= scan.next();
+		System.out.println("Saisissez votre address:");
+		scan.nextLine();
+		String address = scan.nextLine();
+		System.out.println("Saisissez votre numéro de téléphone:");
+		String phone= scan.next();
+		
+		myLibrary.registerCustomer(password, lastName, firstName, email, address, phone);
+		int id = myLibrary.existCustomer(email,password);
+		login = email;
+		idCustomer = id;
+		}
+		
 	}
 	
 	

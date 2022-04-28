@@ -115,6 +115,19 @@ public class IELibraryImpl implements IELibrary {
 				return customer.getCustomerId();
 		return 0;
 	}
+	/**
+	 * @param password
+	 * @param lastNameString
+	 * @param firstName
+	 * @param email
+	 * @param address
+	 * @param phone
+	 * @return id de l'utilisateur, 0 si non créé
+	 */
+	public int registerCustomer(String password, String lastNameString, String firstName, String email,String address,String phone) {
+		customerDao.create(new Customer(password, lastNameString, firstName, email ,address, phone));
+		return existCustomer(email, password);
+	}
 
 	public boolean isCartEmpty() {
 		return cart.isEmpty();
