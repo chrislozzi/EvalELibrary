@@ -4,7 +4,7 @@
 package fr.fms.entities;
 
 /**
- * @author Stagiaires09
+ * @author Lozzi 2002
  *
  */
 public class Customer {

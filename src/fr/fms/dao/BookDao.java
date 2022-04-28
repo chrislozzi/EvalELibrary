@@ -98,9 +98,9 @@ public class BookDao implements Dao<Book> {
 	public ArrayList<Book> readAllByThemeId(int id) {
 		ArrayList<Book> articles = new ArrayList<Book>();
 		String str = "SELECT t_books.IdBook,Title,Author,UnitaryPrice "
-					+ "FROM t_books,t_themes,t_themeitem "
-					+ "WHERE t_books.IdBook=t_themeitem.IdBook AND t_themeitem.IdTheme=t_themes.IdTheme "
-					+ "AND t_themes.IdTheme=" + id +";" ;	
+				+ "FROM t_books,t_themes,t_themeitems "
+				+ "WHERE t_books.IdBook=t_themeitems.IdBook AND t_themeitems.IdTheme=t_themes.IdTheme "
+				+ "AND t_themes.IdTheme=" + id +";" ;	
 		try(Statement statement = connection.createStatement()){
 			try(ResultSet resultSet = statement.executeQuery(str)){ 			
 				while(resultSet.next()) {
@@ -112,7 +112,8 @@ public class BookDao implements Dao<Book> {
 				}	
 			}
 		} catch (SQLException e) {
-			logger.log(Level.SEVERE,"pb sql lors de la lecture de la liste des livres d'une catégorie");
+
+			logger.log(Level.SEVERE,"pb sql lors de la lecture de la liste des livres d'un thème");
 		}			
 		return articles;
 	}

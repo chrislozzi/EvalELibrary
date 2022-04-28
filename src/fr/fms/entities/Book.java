@@ -12,7 +12,7 @@ public class Book {
 	private String title;
 	private String author;
 	private double unitaryPrice;
-	
+	private int quantity=1;
 	
 	/**
 	 * @param idBook
@@ -89,7 +89,20 @@ public class Book {
 	public void setUnitaryPrice(double unitaryPrice) {
 		this.unitaryPrice = unitaryPrice;
 	}
+	
+	/**
+	 * @return the quantity
+	 */
+	public int getQuantity() {
+		return quantity;
+	}
 
+	/**
+	 * @param quantity the quantity to set
+	 */
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
 	@Override
 	public String toString() {

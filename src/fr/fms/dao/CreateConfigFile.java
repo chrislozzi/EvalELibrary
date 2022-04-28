@@ -16,8 +16,8 @@ public class CreateConfigFile {
 			Properties properties = new Properties();	
 			properties.setProperty("db.driver", "org.mariadb.jdbc.Driver");
 			properties.setProperty("db.url", "jdbc:mariadb://localhost:3306/ELibrary");
-			properties.setProperty("db.login", "root");
-			properties.setProperty("db.password", "fms2022");			
+			properties.setProperty("db.login", "chris.admin@fms.it");
+			properties.setProperty("db.password", "000");			
 			properties.store(ops , "No comment !");
 		}
 		 catch (IOException io) {

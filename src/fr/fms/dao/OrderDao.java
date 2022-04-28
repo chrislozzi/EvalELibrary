@@ -12,10 +12,10 @@ public class OrderDao implements Dao<Order> {
 
 	@Override
 	public boolean create(Order obj) {
-		String str = "INSERT INTO T_Orders (CustomerId, Amount) VALUES (?,?);";	
+		String str = "INSERT INTO T_Orders (IdCustomer, Amount) VALUES (?,?);";	
 		try (PreparedStatement ps = connection.prepareStatement(str,Statement.RETURN_GENERATED_KEYS)){
-			ps.setInt(2, obj.getIdCustomer());
-			ps.setDouble(1, obj.getAmount());			
+			ps.setInt(1, obj.getIdCustomer());
+			ps.setDouble(2, obj.getAmount());			
 			ps.executeUpdate();
 			try(ResultSet generatedKeySet = ps.getGeneratedKeys()){
 				if(generatedKeySet.next()) {

@@ -4,11 +4,17 @@
 package fr.fms;
 
 
+import java.util.Date;
+
 import fr.fms.dao.BookDao;
 import fr.fms.dao.CustomerDao;
+import fr.fms.dao.OrderDao;
+import fr.fms.dao.OrderItemDao;
 import fr.fms.dao.ThemeDao;
 import fr.fms.entities.Book;
 import fr.fms.entities.Customer;
+import fr.fms.entities.Order;
+import fr.fms.entities.OrderItem;
 import fr.fms.entities.Theme;
 
 /**
@@ -19,12 +25,12 @@ public class Test {
 	public static void main(String[] args) {
 
 /*******************************************************************************************************/
-/**											Test DaoCustomer									      **/
+/**											Test CustomerDao									      **/
 /*******************************************************************************************************/			
 		//Affichage de tous les utilisateurs
-		/*
-		 * new CustomerDao().readAll().forEach(book -> { System.out.println(book) ;});
-		 */
+		
+		 new CustomerDao().readAll().forEach(customer -> { System.out.println(customer) ;});
+		 
 		
 		//Créer un utilisateur
 //		new CustomerDao().create(new Customer("246","Chris","Laotsi","chris.laotsi@vert.efr",
@@ -34,7 +40,7 @@ public class Test {
 //		System.out.println(new CustomerDao().read(3));
 		
 /*******************************************************************************************************/
-/**											Test DaoBook										      **/
+/**											Test BookDao										      **/
 /*******************************************************************************************************/	
 		//affichage de tous les livres
 //		new BookDao().readAll().forEach(book -> {			
@@ -61,7 +67,7 @@ public class Test {
 //		System.out.println(new BookDao().read(11));
 		
 /*******************************************************************************************************/
-/**											Test DaoTheme										      **/
+/**											Test ThemeDao										      **/
 /*******************************************************************************************************/
 		//affichage de tous les thèmes
 //		System.out.println(Theme.centerString("Id des thèmes") + Theme.centerString("Nom des thèmes"));
@@ -76,7 +82,7 @@ public class Test {
 		
 		
 /*******************************************************************************************************/
-/**											Test DaoThemeItem									      **/
+/**											Test ThemeItemDao									      **/
 /*******************************************************************************************************/
 		//Affichage de tous les livres d'un thème
 //		new BookDao().readAllByThemeId(10).forEach(book -> {			
@@ -84,11 +90,18 @@ public class Test {
 //			;});
 		
 /*******************************************************************************************************/
-/**											Test DaoThemeItem									      **/
+/**											Test OrderDao   									      **/
 /*******************************************************************************************************/		
 		//Créer une commande
-		
+//		new OrderDao().create(new Order(1, new Date(),500.00));
 
+		
+		
+/*******************************************************************************************************/
+/**											Test OrderDao   									      **/
+/*******************************************************************************************************/	
+		//Créer une commande minifiée
+//		new OrderItemDao().create(new OrderItem(1,1,1));
 	}
 	
 }
