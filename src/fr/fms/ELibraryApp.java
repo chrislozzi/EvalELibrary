@@ -238,11 +238,15 @@ public class ELibraryApp {
 			while(!Pattern.matches(PHONE_PATTERN,scan.next())) 			
 				System.out.println("Veuillez saisir un Nom valide");
 			String phone= scan.nextLine();
-
-			myLibrary.registerCustomer(password, lastName, firstName, email, address, phone);
-			int id = myLibrary.existCustomer(email,password);
-			login = email;
-			customerId = id;
+			
+			if(myLibrary.existCustomer(email,password)!=0)
+				System.out.println("Ce compte existe déjà");
+			else {
+				myLibrary.registerCustomer(password, lastName, firstName, email, address, phone);
+				int id = myLibrary.existCustomer(email,password);
+				login = email;
+				customerId = id;
+			}
 		}
 
 	}
