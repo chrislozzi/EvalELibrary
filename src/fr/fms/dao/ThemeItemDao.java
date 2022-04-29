@@ -1,14 +1,15 @@
+/**
+ * Composant d'accès aux données de la table T_ThemeItems dans la base de données ELibrary
+ * @author LOZZI - 2022
+ * 
+ */
 package fr.fms.dao;
 
-import java.sql.Statement;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import fr.fms.entities.Book;
-import fr.fms.entities.Theme;
 import fr.fms.entities.ThemeItem;
 
 public class ThemeItemDao implements Dao<ThemeItem>{

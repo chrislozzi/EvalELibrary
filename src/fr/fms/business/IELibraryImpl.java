@@ -1,6 +1,6 @@
 /**
  * @author Lozzi - 2022
- * 
+ * classe d'implémentation de l'interface IELibrairy.class, elle contient le panier et toutes les méthodes de la couche métier 
  */
 
 package fr.fms.business;
@@ -8,9 +8,7 @@ package fr.fms.business;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import fr.fms.dao.BookDao;
-import fr.fms.dao.ThemeDao;
 import fr.fms.dao.Dao;
 import fr.fms.dao.DaoFactory;
 import fr.fms.entities.Book;
@@ -33,11 +31,11 @@ public class IELibraryImpl implements IELibrary {
 
 	@Override
 	public void addToCart(Book book) {
-		Book bk = cart.get(book.getIdBook());
+		Book bk = cart.get(book.getBookId());
 		if(bk != null) {
 			bk.setQuantity(bk.getQuantity() + 1);
 		}
-		else cart.put(book.getIdBook(), book);
+		else cart.put(book.getBookId(), book);
 	}
 
 	@Override
@@ -61,34 +59,33 @@ public class IELibraryImpl implements IELibrary {
 			Order order = new Order(idCustomer, new Date(), total);
 			if(orderDao.create(order)) {	//ajout en base de la commande
 				for(Book book : cart.values()) {	//ajout des commandes minifiées associées
-					orderItemDao.create(new OrderItem(order.getIdOrder(), book.getIdBook(), book.getQuantity()));
+					orderItemDao.create(new OrderItem(order.getOrderId(), book.getBookId(), book.getQuantity()));
 				}
-				return order.getIdOrder();
+				return order.getOrderId();
 			}
 		}
 		return 0;
 	}
 
+	
 	@Override
 	public ArrayList<Book> readBooks() {
 		return bookDao.readAll();
 	}
 
+	
 	@Override
 	public ArrayList<Theme> readThemes() {
 		return themeDao.readAll();
 	}
 
+	
 	@Override
 	public Book readOneBook(int id) {
 		return bookDao.read(id);
 	}
-	/**
-	 * méthode qui retourne la liste des livres en base pour un id de thème 
-	 * @param pwd
-	 * @return Liste de livres, null si non trouvé
-	 * @Override
-	 */
+	
+	@Override
 	public ArrayList<Book> readBooksByThemeId(int id) {
 		return ((BookDao) bookDao).readAllByThemeId(id);
 	}
@@ -116,6 +113,7 @@ public class IELibraryImpl implements IELibrary {
 		return 0;
 	}
 	/**
+	 * méthode qui créer un utilisateur en base
 	 * @param password
 	 * @param lastNameString
 	 * @param firstName
@@ -128,15 +126,24 @@ public class IELibraryImpl implements IELibrary {
 		customerDao.create(new Customer(password, lastNameString, firstName, email ,address, phone));
 		return existCustomer(email, password);
 	}
-
+	/**
+	 * méthode qui teste si le panier est vide
+	 * @return vrai si vide, false sinon
+	 */
 	public boolean isCartEmpty() {
 		return cart.isEmpty();
 	}
-
+	/**
+	 * méthode qui vide le panier
+	 */
 	public void clearCart() {
 		cart.clear();		
 	}
-
+	/**
+	 * 
+	 * @param id du thème
+	 * @return le thème dont l'id correspond
+	 */
 	public Theme readOneTheme(int id) {
 		return themeDao.read(id);
 	}

@@ -5,7 +5,7 @@ package fr.fms.entities;
 
 /**
  * @author Lozzi 2002
- *
+ *classe représentant un utilisateur
  */
 public class Customer {
 	private int customerId;
@@ -16,13 +16,13 @@ public class Customer {
 	private String address;
 	private String phone;
 	/**
-	 * @param customerId
-	 * @param password
-	 * @param lastName
-	 * @param firstName
-	 * @param email
-	 * @param address
-	 * @param phone
+	 * @param id de l'utilisateur
+	 * @param mot de passe 
+	 * @param nom de l'utilisateur
+	 * @param prénom de l'utilisateur
+	 * @param email de l'utilisateur
+	 * @param address del'utilisateur
+	 * @param numéro de téléphone de l'utilisateur
 	 */
 	public Customer(int customerId, String password, String lastName, String firstName, String email, String address,String phone) {
 		setCustomerId(customerId);
@@ -35,12 +35,12 @@ public class Customer {
 	}
 	
 	/**
-	 * @param password
-	 * @param lastName
-	 * @param firstName
-	 * @param email
-	 * @param address
-	 * @param phone
+	 * @param mot de passe de l'utilisateur
+	 * @param nom de l'utilisateur
+	 * @param prénom de l'utilisateur
+	 * @param email de l'utilisateur
+	 * @param address del'utilisateur
+	 * @param numéro de téléphone de l'utilisateur
 	 */
 	public Customer(String password, String lastName, String firstName, String email, String address, String phone) {
 		setPassword(password);
@@ -141,11 +141,15 @@ public class Customer {
 		return centerString(String.valueOf(customerId)) + centerString(password) + centerString(lastName) 
 			 + centerString(email) + centerString(address)+ centerString(phone);
 	}
-	
+	/**
+	 * méthode qui formate l'a faire un alignement centré d'une chaine de caractère
+	 * @param chaine de caractère
+	 * @return chaine de caractère centrée
+	 */
 	public static String centerString(String str) {
-		if(str.length() >= 20) return str;
-		String dest = "                    ";
-		int deb = (20 - str.length())/2 ;
+		if(str.length() >= 30) return str;
+		String dest = "                              ";
+		int deb = (30 - str.length())/2 ;
 		String data = new StringBuilder(dest).replace( deb, deb + str.length(), str ).toString();
 		return data;
 	}

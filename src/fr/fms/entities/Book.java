@@ -4,34 +4,34 @@
 package fr.fms.entities;
 
 /**
- * @author Stagiaires09
- *
+ * @author Lozzi 2022
+ *classe représentant un livre
  */
 public class Book {
-	private int idBook ;
+	private int bookId ;
 	private String title;
 	private String author;
 	private double unitaryPrice;
 	private int quantity=1;
-	
+
 	/**
-	 * @param idBook
-	 * @param title
-	 * @param author
-	 * @param unitaryPrice
+	 * @param id du livre
+	 * @param titre du livre
+	 * @param auteur du livre
+	 * @param prix du livre
 	 */
-	public Book(int idBook, String title, String author, double unitaryPrice) {
-		setIdBook(idBook);
+	public Book(int bookId, String title, String author, double unitaryPrice) {
+		setBookId(bookId);
 		setTitle(title);
 		setAuthor(author);
 		setUnitaryPrice(unitaryPrice);
 	}
-	
-	
+
+
 	/**
-	 * @param title
-	 * @param author
-	 * @param unitaryPrice
+	 * @param titre du livre
+	 * @param auteur du livre
+	 * @param prix du livre
 	 * @override
 	 */
 	public Book(String title, String author, double unitaryPrice) {
@@ -42,16 +42,16 @@ public class Book {
 
 
 	/**
-	 * @return the idBook
+	 * @return the bookId
 	 */
-	public int getIdBook() {
-		return idBook;
+	public int getBookId() {
+		return bookId;
 	}
 	/**
-	 * @param idBook the idBook to set
+	 * @param bookId the bookId to set
 	 */
-	public void setIdBook(int idBook) {
-		this.idBook = idBook;
+	public void setBookId(int bookId) {
+		this.bookId = bookId;
 	}
 	/**
 	 * @return the title
@@ -89,7 +89,7 @@ public class Book {
 	public void setUnitaryPrice(double unitaryPrice) {
 		this.unitaryPrice = unitaryPrice;
 	}
-	
+
 	/**
 	 * @return the quantity
 	 */
@@ -106,16 +106,20 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return centerString(String.valueOf(idBook)) + String.valueOf(centerString(title)) + String.valueOf(centerString(author)) + centerString(String.valueOf(unitaryPrice));
+		return centerString(String.valueOf(bookId)) + centerString(title) + centerString(author) + centerString(String.valueOf(unitaryPrice));
 	}
-	
+	/**
+	 * méthode pour faire un alignement centré d'une chaine de caractère
+	 * @param chaine de caractère
+	 * @return chaine de caractère centrée
+	 */
 	public static String centerString(String str) {
-		if(str.length() >= 20) return str;
-		String dest = "                    ";
-		int deb = (20 - str.length())/2 ;
+		if(str.length() >= 30) return str;
+		String dest = "                              ";
+		int deb = (30 - str.length())/2 ;
 		String data = new StringBuilder(dest).replace( deb, deb + str.length(), str ).toString();
 		return data;
 	}
-	
-	
+
+
 }

@@ -1,5 +1,5 @@
 /**
- * Composant d'accès aux données de la table T_Books dans la base de données Shop
+ * Composant d'accès aux données de la table T_Books dans la base de données ELibrary
  * @author LOZZI - 2022
  * 
  */
@@ -16,9 +16,7 @@ import java.util.logging.Level;
 import fr.fms.entities.Book;
 
 public class BookDao implements Dao<Book> {
-
-
-	//Insertion avec preparedStatement -> évite les attaques par injection sql
+	
 	@Override
 	public boolean create(Book obj) {
 		boolean isCreated = false;
@@ -54,7 +52,7 @@ public class BookDao implements Dao<Book> {
 			ps.setString(1, obj.getTitle());
 			ps.setString(2, obj.getAuthor());
 			ps.setDouble(3, obj.getUnitaryPrice());	
-			ps.setInt(4, obj.getIdBook());
+			ps.setInt(4, obj.getBookId());
 			if(ps.executeUpdate()==1) isUpdated = true;
 			return true;
 		} catch (SQLException e) {
@@ -66,7 +64,7 @@ public class BookDao implements Dao<Book> {
 	@Override
 	public boolean delete(Book obj) {
 		try (Statement statement = connection.createStatement()){
-			String str = "DELETE FROM T_Books where IdBook=" + obj.getIdBook() + ";";									
+			String str = "DELETE FROM T_Books where IdBook=" + obj.getBookId() + ";";									
 			statement.executeUpdate(str);		
 			return true;
 		} catch (SQLException|NullPointerException e) {
@@ -94,7 +92,11 @@ public class BookDao implements Dao<Book> {
 		}			
 		return articles;
 	}
-
+	/**
+	 * méthode qui accéde à la base, elle renvoie la liste des livres propre à un thème
+	 * @param id du thème
+	 * @return liste de livre
+	 */
 	public ArrayList<Book> readAllByThemeId(int id) {
 		ArrayList<Book> articles = new ArrayList<Book>();
 		String str = "SELECT t_books.IdBook,Title,Author,UnitaryPrice "

@@ -5,6 +5,7 @@ package fr.fms;
 
 
 import java.util.Date;
+import java.util.regex.Pattern;
 
 import fr.fms.dao.BookDao;
 import fr.fms.dao.CustomerDao;
@@ -18,18 +19,20 @@ import fr.fms.entities.OrderItem;
 import fr.fms.entities.Theme;
 
 /**
- * @author Stagiaires09
+ * @author Lozzi 2022
  *
  */
 public class Test {
+
 	public static void main(String[] args) {
+		
 
 /*******************************************************************************************************/
 /**											Test CustomerDao									      **/
 /*******************************************************************************************************/			
 		//Affichage de tous les utilisateurs
 		
-		 new CustomerDao().readAll().forEach(customer -> { System.out.println(customer) ;});
+//		 new CustomerDao().readAll().forEach(customer -> { System.out.println(customer) ;});
 		 
 		
 		//Créer un utilisateur
@@ -66,6 +69,11 @@ public class Test {
 //		new BookDao().delete(new BookDao().read(11));
 //		System.out.println(new BookDao().read(11));
 		
+		//Affichage de tous les livres d'un thème
+//		new BookDao().readAllByThemeId(10).forEach(book -> {			
+//			System.out.println(book)
+//			;});
+		
 /*******************************************************************************************************/
 /**											Test ThemeDao										      **/
 /*******************************************************************************************************/
@@ -78,7 +86,6 @@ public class Test {
 		//Affiche un thème
 //		System.out.println(new ThemeDao().read(1));
 		
-		//Créer un Thème
 		
 		
 /*******************************************************************************************************/
@@ -98,10 +105,12 @@ public class Test {
 		
 		
 /*******************************************************************************************************/
-/**											Test OrderDao   									      **/
+/**											Test OrderItemDao   									      **/
 /*******************************************************************************************************/	
 		//Créer une commande minifiée
 //		new OrderItemDao().create(new OrderItem(1,1,1));
+		
+		
 	}
-	
+
 }

@@ -8,38 +8,41 @@ package fr.fms.business;
 import java.util.ArrayList;
 import fr.fms.entities.Book;
 import fr.fms.entities.Theme;
-
+/**
+ * interface de la couche métier de l'application ELibrary
+ *
+ */
 public interface IELibrary {	
 	/**
-	 * méthode qui ajoute un book au panier
-	 * @param book à ajouter
+	 * méthode qui ajoute un livre au panier
+	 * @param book livre à ajouter
 	 */
 	public void addToCart(Book book);		
 	
 	/**
-	 * méthode qui retire un book au panier s'il est dedans
-	 * @param id de l'book à retirer
+	 * méthode qui retire un livre du panier s'il est dedans
+	 * @param id du livre à retirer
 	 */
 	public void rmFromCart(int id);		
 	
 	/**
-	 * méthode qui renvoi sous la forme d'une liste tous les éléments du panier (gestion en mémoire)
-	 * @return Liste d'books du panier
+	 * méthode qui renvoi sous la forme d'une liste tous les livres du panier (gestion en mémoire)
+	 * @return Liste des livres présents dans le panier
 	 */
 	public ArrayList<Book> getCart();	
 	
 	/**
 	 * méthode qui réalise la commande en base avec l'idCustomer + total de la commande en cours + date du jour + contenu du panier :
-	 * - la méthode va céer une commande en base -> idOrder + montant + date + idCustomer
-	 * - puis va ajouter autant de commande minifiée associée : orderItem -> idOrderItem + idBook + Quantity + UnitaryPrice + idOrder
-	 * @param idCustomer est l'identifiant du client qui est passé commande
-	 * @return 1 si tout est ok 0 si pb 
+	 * - la méthode va céer une commande en base -> idOrder + amount + date + idCustomer
+	 * - puis va ajouter autant de commande minifiée associée : orderItem ->  idOrder + idBook + Quantity 
+	 * @param idCustomer est l'identifiant du client qui a passé commande
+	 * @return 1 si la commande est créée, 0 sinon 
 	 */
 	public int order(int idCustomer);		
 	
 	/**
 	 * méthode qui renvoi tous les books de la table t_books en bdd
-	 * @return Liste d'books en base
+	 * @return Liste des livres en base
 	 */
 	public ArrayList<Book> readBooks();	
 	
@@ -51,15 +54,15 @@ public interface IELibrary {
 	public Book readOneBook(int id);	
 	
 	/**
-	 * méthode qui renvoi toutes les catégories de la table t_catégories en bdd
+	 * méthode qui renvoi tous les thèmes de la table t_thèmes en bdd
 	 * @return Liste des thèmes en base
 	 */
 	public ArrayList<Theme> readThemes();
 	
 	/**
 	 * méthode qui renvoi tous les livres d'un thème
-	 * @param id du thème
-	 * @return Liste d'books
+	 * @param idTheme id du thème
+	 * @return Liste de livre
 	 */
 	public ArrayList<Book> readBooksByThemeId(int idTheme);
 }

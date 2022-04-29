@@ -1,3 +1,8 @@
+/**
+ * Composant d'accès aux données de la table T_Orders dans la base de données ELibrary
+ * @author LOZZI - 2022
+ * 
+ */
 package fr.fms.dao;
 
 import java.sql.PreparedStatement;
@@ -14,12 +19,12 @@ public class OrderDao implements Dao<Order> {
 	public boolean create(Order obj) {
 		String str = "INSERT INTO T_Orders (IdCustomer, Amount) VALUES (?,?);";	
 		try (PreparedStatement ps = connection.prepareStatement(str,Statement.RETURN_GENERATED_KEYS)){
-			ps.setInt(1, obj.getIdCustomer());
+			ps.setInt(1, obj.getCustomerId());
 			ps.setDouble(2, obj.getAmount());			
 			ps.executeUpdate();
 			try(ResultSet generatedKeySet = ps.getGeneratedKeys()){
 				if(generatedKeySet.next()) {
-					obj.setIdOrder(generatedKeySet.getInt(1));
+					obj.setOrderId(generatedKeySet.getInt(1));
 					return true;
 				}	
 			}

@@ -1,6 +1,6 @@
 /**
- * Composant d'accès aux données de la table T_Customers dans la base de données Shop
- * @author El babili - 2022
+ * Composant d'accès aux données de la table T_Customers dans la base de données ELibrary
+ * @author Lozzi - 2022
  * 
  */
 
@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
-
-import fr.fms.entities.Customer;
 import fr.fms.entities.Customer;
 
 public class CustomerDao implements Dao<Customer> {
@@ -28,11 +26,10 @@ public class CustomerDao implements Dao<Customer> {
 			ps.setString(4, obj.getEmail());
 			ps.setString(5, obj.getAddress());			
 			ps.setString(6, obj.getPhone());			
-					
+
 			if( ps.executeUpdate() == 1)	return true;				
 		} catch (SQLException e) {
-			e.printStackTrace();
-			//logger.log(Level.SEVERE,"pb sql sur la création d'un utilisateur");
+			logger.log(Level.SEVERE,"pb sql sur la création d'un utilisateur");
 		} 				
 		return false;
 	}
@@ -46,7 +43,6 @@ public class CustomerDao implements Dao<Customer> {
 				return new Customer(rs.getInt(1) , rs.getString(2) , rs.getString(3),
 						rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7));
 		} catch (SQLException e) {
-			//e.printStackTrace();
 			logger.severe("pb Sql :" + e);
 		} 	
 		return null;
@@ -65,7 +61,7 @@ public class CustomerDao implements Dao<Customer> {
 			ps.setString(5, obj.getPhone());					
 			if( ps.executeUpdate() == 1) isUpdated = true;			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.severe("pb Sql :" + e);
 			return isUpdated;
 		} 	
 		return true;
@@ -101,7 +97,6 @@ public class CustomerDao implements Dao<Customer> {
 				}	
 			}
 		} catch (SQLException e) {
-			//e.printStackTrace();
 			logger.severe("pb Sql :" + e);
 		}			
 		return customers;

@@ -2,7 +2,7 @@
  * Gestion de la connexion à la base à partir des données dans le fichier config.properties
  * Afin d'assurer qu'une seule connexion est établie pour tous les composantsd'accès aux données,
  * nous avons utilisé ici un Singleton à l'aide du constructeur privé
- * @author El babili - 2022
+ * @author Lozzi - 2022
  */
 
 package fr.fms.dao;
@@ -44,8 +44,8 @@ public class BddConnection {
 	}
 	
 	/**
-	 * méthode qui retourne une connection, si inexistante, il l'a crée une seule fois
-	 * synchronized pour le 2ème vérrou de gestion du multithreading
+	 * méthode qui retourne une connection, si inexistante, il l'a créer une seule fois
+	 * synchronized pour le 2ème verrou de gestion du multithreading
 	 * @return Connection
 	 */
 	public static synchronized Connection getConnection() {

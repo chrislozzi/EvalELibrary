@@ -4,49 +4,50 @@
 package fr.fms.entities;
 
 /**
- * @author Stagiaires09
+ * @author Lozzi - 2022
+ *classe servant à créer les commandes minifiées -> id de la commande + id du livre + quantité
  *
  */
 public class OrderItem {
-	private int idOrder;
-	private int idBook;
+	private int orderId;
+	private int bookId;
 	private int quantity;
 
 	
 	/**
-	 * @param idOrder
-	 * @param idArticle
-	 * @param quantity
+	 * @param id de la commande
+	 * @param id du livre
+	 * @param quantité
 	 */
-	public OrderItem(int idOrder, int idBook, int quantity) {
-		setIdOrder(idOrder);
-		setIdArticle(idBook);
+	public OrderItem(int orderId, int bookId, int quantity) {
+		setOrderId(orderId);
+		setIdArticle(bookId);
 		setQuantity(quantity);
 		
 	}
 	/**
-	 * @return the idArticle
+	 * @return the bookId
 	 */
-	public int getIdBook() {
-		return idBook;
+	public int getBookId() {
+		return bookId;
 	}
 	/**
-	 * @param idArticle the idArticle to set
+	 * @param bookId the bookId to set
 	 */
-	public void setIdArticle(int idBook) {
-		this.idBook = idBook;
+	public void setIdArticle(int bookId) {
+		this.bookId = bookId;
 	}
 	/**
-	 * @return the idOrder
+	 * @return the orderId
 	 */
-	public int getIdOrder() {
-		return idOrder;
+	public int getOrderId() {
+		return orderId;
 	}
 	/**
-	 * @param idOrder the idOrder to set
+	 * @param orderId the orderId to set
 	 */
-	public void setIdOrder(int idOrder) {
-		this.idOrder = idOrder;
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
 	}
 
 	/**
@@ -63,7 +64,7 @@ public class OrderItem {
 	}
 	@Override
 	public String toString() {
-		return "OrderItem [idOrder=" + idOrder + ", idBook=" + idBook + ", quantity=" + quantity + "]";
+		return "OrderItem [orderId=" + orderId + ", bookId=" + bookId + ", quantity=" + quantity + "]";
 	}
 	
 	

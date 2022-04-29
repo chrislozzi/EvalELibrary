@@ -6,7 +6,7 @@ CREATE DATABASE ELibrary;
 USE ELibrary;
 
 -- ------------------------------------------------------------------------------
--- - Construction de la tables des livres en vente                            ---
+-- - Construction de la tables des livres                                     ---
 -- ------------------------------------------------------------------------------
 CREATE TABLE T_Books (
 	IdBook			int(4)			PRIMARY KEY AUTO_INCREMENT,
@@ -59,9 +59,9 @@ CREATE TABLE T_Orders (
 	)ENGINE = InnoDB;
 
 CREATE TABLE T_OrderItems (
-	IdOrder INT(4) NOT NULL,
-	IdBook INT(4) NOT NULL,
-	Quantity int(4) not null DEFAULT 0, 
+	IdOrder		INT(4) NOT NULL,
+	IdBook 		INT(4) NOT NULL,
+	Quantity 	int(4) not null DEFAULT 0, 
 	PRIMARY KEY (IdOrder,IdBook ),
 	CONSTRAINT FK2__t_books FOREIGN KEY (IdBook) REFERENCES t_books (IdBook) ON UPDATE NO ACTION ON DELETE NO ACTION,
 	CONSTRAINT FK__t_idorders FOREIGN KEY (IdOrder) REFERENCES t_orders (IdOrder) ON UPDATE NO ACTION ON DELETE NO ACTION

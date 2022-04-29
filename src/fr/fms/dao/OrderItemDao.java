@@ -1,3 +1,8 @@
+/**
+ * Composant d'accès aux données de la table T_OrederItems dans la base de données ELibrary
+ * @author LOZZI - 2022
+ * 
+ */
 package fr.fms.dao;
 
 import java.sql.PreparedStatement;
@@ -12,8 +17,8 @@ public class OrderItemDao implements Dao<OrderItem> {
 	public boolean create(OrderItem obj) {
 		String str = "INSERT INTO T_OrderItems (IdOrder, IdBook, Quantity) VALUES (?,?,?);";	
 		try (PreparedStatement ps = connection.prepareStatement(str)){	
-			ps.setInt(1, obj.getIdOrder());
-			ps.setInt(2, obj.getIdBook());
+			ps.setInt(1, obj.getOrderId());
+			ps.setInt(2, obj.getBookId());
 			ps.setInt(3, obj.getQuantity());			
 			
 			ps.executeUpdate();			

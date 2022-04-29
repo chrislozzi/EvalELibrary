@@ -6,63 +6,61 @@ package fr.fms.entities;
 import java.util.Date;
 
 /**
- * @author Stagiaires09
- *
+ * @author Lozzi - 2022
+ *classe servant à créer la commande -> id de la commande + id de l'utilisateur + date + montant totale de la commande
  */
 public class Order {
-	private int idOrder;
-	private int idCustomer;
+	private int OrderId;
+	private int customerId;
 	private Date date;
 	private double amount;
-	
-	
-	
+		
 	/**
-	 * @param idOrder
-	 * @param idCustomer
-	 * @param date
-	 * @param amount
+	 * @param id de la commande
+	 * @param id de l'utilisateur
+	 * @param date de la commande
+	 * @param montant total de la commande
 	 */
-	public Order(int idOrder, int idCustomer, Date date, double amount) {
-		setIdOrder(idOrder);
-		setIdCustomer(idCustomer);
+	public Order(int OrderId, int customerId, Date date, double amount) {
+		setOrderId(OrderId);
+		setCustomerId(customerId);
 		setDate(date);
 		setAmount(amount);
 		
 	}
 	/**
-	 * @param idCustomer
-	 * @param date
-	 * @param amount
+	 * @param id de l'utilisateur
+	 * @param date de la commande
+	 * @param montant total de la commande
 	 */
-	public Order(int idCustomer, Date date, double amount) {
-		setIdCustomer(idCustomer);
+	public Order(int customerId, Date date, double amount) {
+		setCustomerId(customerId);
 		setDate(date);
 		setAmount(amount);
 	}
 	/**
-	 * @return the idOrder
+	 * @return the OrderId
 	 */
-	public int getIdOrder() {
-		return idOrder;
+	public int getOrderId() {
+		return OrderId;
 	}
 	/**
-	 * @param idOrder the idOrder to set
+	 * @param OrderId the OrderId to set
 	 */
-	public void setIdOrder(int idOrder) {
-		this.idOrder = idOrder;
+	public void setOrderId(int OrderId) {
+		this.OrderId = OrderId;
 	}
 	/**
-	 * @return the idCustomer
+	 * @return the customerId
 	 */
-	public int getIdCustomer() {
-		return idCustomer;
+	public int getCustomerId() {
+		return customerId;
 	}
 	/**
-	 * @param idCustomer the idCustomer to set
+	 * @param customerId the customerId to set
 	 */
-	public void setIdCustomer(int idCustomer) {
-		this.idCustomer = idCustomer;
+	public void setCustomerId(int customerId) {
+		this.customerId = customerId;
 	}
 	/**
 	 * @return the date
@@ -90,8 +88,7 @@ public class Order {
 	}
 	@Override
 	public String toString() {
-		return "Order [idOrder=" + idOrder + ", idCustomer=" + idCustomer + ", date=" + date + ", amount=" + amount
-				+ "]";
+		return "Order [OrderId=" + OrderId + ", customerId=" + customerId + ", date=" + date + ", amount=" + amount	+ "]";
 	}
 	
 	

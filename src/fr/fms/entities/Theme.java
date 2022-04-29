@@ -12,8 +12,8 @@ public class Theme {
 	private String themeName;
 	
 	/**
-	 * @param idTheme
-	 * @param themeName
+	 * @param id du thème
+	 * @param nom du thème
 	 */
 	public Theme(int idTheme, String themeName) {
 		setIdTheme(idTheme);
@@ -45,9 +45,13 @@ public class Theme {
 	}
 		@Override
 		public String toString() {
-			return centerString(String.valueOf(idTheme)) + centerString(themeName);
+			return centerString(String.valueOf(idTheme) + centerString(themeName));
 		}
-		
+		/**
+		 * méthode qui formate l'a faire un alignement centré d'une chaine de caractère
+		 * @param chaine de caractère
+		 * @return chaine de caractère centrée
+		 */
 		public static String centerString(String str) {
 			if(str.length() >= 20) return str;
 			String dest = "                    ";

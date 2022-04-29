@@ -1,6 +1,8 @@
 package fr.fms.dao;
 
-
+/**
+ * classe permettant de fabriquer tous les composants d'accès a la base de données ELibrary
+ */
 import fr.fms.entities.Book;
 import fr.fms.entities.Customer;
 import fr.fms.entities.Order;

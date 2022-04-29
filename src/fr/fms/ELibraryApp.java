@@ -1,25 +1,33 @@
 /**
- * Application console de vente d'books permettant d'exploiter une couche métier/dao pour créer un panier en ajoutant ou retirant des books
+ * Application console, de vente de livres, permettant d'exploiter une couche métier/dao, pour créer un panier en ajoutant ou retirant des livres
  * puis passer commande à tout instant, cela génère une commande en base avec tous les éléments associés
- * @author El babili - 2022
- * 
+ * @author Lozzi- 2022
+ * @version 1.0
  */
 package fr.fms;
 
 
-
 import java.util.Scanner;
+import java.util.regex.Pattern;
+
 import fr.fms.business.IELibraryImpl;
 import fr.fms.entities.Book;
 import fr.fms.entities.Theme;
 
 public class ELibraryApp {
+	private static final String EMAIL_PATTERN = "^[A-Za-z0-9._-]+@[A-Za-z0-9._-]+\\.[a-z][a-z]+$";
+	private static final String PHONE_PATTERN = "^(?:(?:\\+|00)33|0)\\s*[1-9](?:[\\s.-]*\\d{2}){4}$";
+	private static final String NAME_PATTERN = "\\p{L}*(-\\p{L}*)*";
+	private static final String ADDRESS_PATTERN = "[0-9]{1,3}(?:(?:[,. ]?){1,2}[-a-zA-Zàâäéèêëïîôöùûüç]+)+";
+
 	private static Scanner scan = new Scanner(System.in); 
-	private static IELibraryImpl myLibrary = new IELibraryImpl();
-	
-	private static int idCustomer = 0;
+	private static IELibraryImpl myLibrary = new IELibraryImpl();	
+	private static int customerId = 0;
 	private static String login = null; 
 
+	/**
+	 * méthode main qui ne gère aucun argument, elle permet d'afficher un message de bienvenue, la liste des livres et le menu principal
+	 */
 	public static void main(String[] args) {
 		welcome();
 		displayBooks();
@@ -50,6 +58,7 @@ public class ELibraryApp {
 	}
 
 	public static void displayMenu() {	
+
 		if(login != null)	System.out.print("Compte : " + login);
 		System.out.println("\n" + "Pour réaliser une action, tapez le code correspondant");
 		System.out.println("1 : Ajouter un livre au panier");
@@ -63,18 +72,18 @@ public class ELibraryApp {
 	}
 
 	public static void displayBooks() { 
-		
+
 		System.out.format("%-4s%-30s%-30s%-10s \n","+----", "+------------------------------", "+------------------------------+", "----------+");
 		System.out.format("|%-4s|%-30s|%-30s|%-10s|\n","Id", "Titre", "Auteur", "Prix");
 		System.out.format("%-4s%-30s%-30s%-10s \n","+----", "+------------------------------", "+------------------------------+", "----------+");
 
 		myLibrary.readBooks().forEach(book -> {			
-			System.out.format("|%-4d|%-30s|%-30s|%-10.2f|\n",book.getIdBook(), book.getTitle(),	book.getAuthor(), book.getUnitaryPrice())
+			System.out.format("|%-4d|%-30s|%-30s|%-10.2f|\n",book.getBookId(), book.getTitle(),	book.getAuthor(), book.getUnitaryPrice())
 			;});
 
 		System.out.format("%-4s%-30s%-30s%-10s \n","+----", "+------------------------------", "+------------------------------+", "----------+");
 	}
-	
+
 	private static void displayBooksByThemeId() {
 		System.out.println("saisissez l'id du thème concerné");
 		int id = scanInt();
@@ -86,12 +95,14 @@ public class ELibraryApp {
 		System.out.format("%-4s%-30s%-30s%-10s \n","+----", "+------------------------------", "+------------------------------+", "----------+");
 
 		myLibrary.readBooksByThemeId(id) .forEach(book -> {			
-			System.out.format("|%-4d|%-30s|%-30s|%-10.2f|\n",book.getIdBook(), book.getTitle(),	book.getAuthor(), book.getUnitaryPrice())
+			System.out.format("|%-4d|%-30s|%-30s|%-10.2f|\n",book.getBookId(), book.getTitle(),	book.getAuthor(), book.getUnitaryPrice())
 			;});
 
 		System.out.format("%-4s%-30s%-30s%-10s \n","+----", "+------------------------------", "+------------------------------+", "----------+");
 	}
-	
+	/**
+	 * méthode qui affiche tous les thèmes
+	 */
 	private static void displayThemes() {
 		System.out.format("%-4s%-20s \n","+----", "+--------------------+");
 		System.out.format("|%-4s|%-20s|\n","Id", "Nom");
@@ -101,15 +112,19 @@ public class ELibraryApp {
 			;});
 		System.out.format("%-4s%-20s \n","+----", "+--------------------+");
 	}
-	
 
+	/**
+	 * méthode qui supprime un livre du panier
+	 */
 	public static void remBook() {
 		System.out.println("Selectionner l'id du livre à supprimer du panier");
 		int id = scanInt();
 		myLibrary.rmFromCart(id);
 		cartMenu(false);
 	}
-
+	/**
+	 * méthode qui ajoute un livre au panier
+	 */
 	public static void addBook() {
 		System.out.println("Selectionner l'id du livre à ajouter au panier");
 		int id = scanInt();
@@ -120,12 +135,12 @@ public class ELibraryApp {
 		}
 		else System.out.println("le livre que vous souhaitez ajouter n'existe pas, pb de saisi id");
 	} 
-/**
- * 
- * @param flag
- */
+	/**
+	 * méthode qui affiche le sous menu du panier, le totale et permet de passer la commande 
+	 * @param flag
+	 */
 	private static void cartMenu(boolean flag) {
-		if(myLibrary.isCartEmpty()) System.out.println("*****PANIER VIDE*****");
+		if(myLibrary.isCartEmpty()) emptyCart();
 		else {
 			displayCart();
 			if(flag) {
@@ -138,15 +153,15 @@ public class ELibraryApp {
 						System.out.println("2: Créer un compte");
 						//A revoir ugly code
 						int choix =scanInt();
-							if(choix ==1)connection();
-							if(choix ==2) newCustomer();							
-													
+						if(choix ==1)connection();
+						if(choix ==2) newCustomer();							
+
 					}
 					if(login != null) {
-						int idOrder = myLibrary.order(idCustomer);
-						if(idOrder == 0)	System.out.println("pb lors du passage de commande");
+						int orderId = myLibrary.order(customerId);
+						if(orderId == 0)	System.out.println("pb lors du passage de commande");
 						else {
-							System.out.println("Votre commande a bien été validé, voici son numéro : " + idOrder);
+							System.out.println("Votre commande a bien été validé, voici son numéro : " + orderId);
 							myLibrary.clearCart();
 						}
 					}
@@ -154,20 +169,23 @@ public class ELibraryApp {
 			}
 		}
 	}
+	/**
+	 * méthode qui affiche le contenu du panier
+	 */
 	public static void displayCart() {
 		System.out.format("%-4s%-30s%-30s%-10s%-8s \n","+----", "+------------------------------", "+------------------------------+", "----------+","--------+");
 		System.out.format("|%-4s|%-30s|%-30s|%-10s|%-8s|\n","Id", "Titre", "Auteur", "Prix", "Quantité");
 		System.out.format("%-4s%-30s%-30s%-10s%-8s \n","+----", "+------------------------------", "+------------------------------+", "----------+","--------+");
 
 		myLibrary.getCart().forEach(article -> {			
-			System.out.format("|%-4d|%-30s|%-30s|%-10.2f|%-8d|\n",article.getIdBook(), article.getTitle(), article.getAuthor(),  
+			System.out.format("|%-4d|%-30s|%-30s|%-10.2f|%-8d|\n",article.getBookId(), article.getTitle(), article.getAuthor(),  
 					article.getUnitaryPrice(), article.getQuantity())
 			;});
 
 		System.out.format("%-4s%-30s%-30s%-10s%-8s \n","+----", "+------------------------------", "+------------------------------+", "----------+","--------+");
 	}
 	/**
-	 * Message de bienvenue
+	 * méthode qui affiche un message de bienvenue
 	 */
 	private static void welcome() {
 		System.out.println();
@@ -176,33 +194,62 @@ public class ELibraryApp {
 		System.out.println("********************************************");		
 		System.out.println();
 	}
-	
+
+	private static void emptyCart() {
+		System.out.println();
+		System.out.println("********************************************");
+		System.out.println("          VOTRE PANIER EST VIDE             ");
+		System.out.println("********************************************");		
+		System.out.println();
+	}
+
+	/**
+	 * méthode qui permet à un nouvel utilisateur de s'enregistrer 
+	 */
 	private static void newCustomer() {
 		if(login != null)	System.out.println("vous êtes déjà connecté");
 		else {
-		System.out.println("Saisissez votre mot de passe:");
-		String password = scan.next();
-		System.out.println("Saisissez votre Nom:");
-		String lastName= scan.next();
-		System.out.println("Saisissez votre prénom:");
-		String firstName= scan.next();
-		System.out.println("Saisissez votre email:");
-		String email= scan.next();
-		System.out.println("Saisissez votre address:");
-		scan.nextLine();
-		String address = scan.nextLine();
-		System.out.println("Saisissez votre numéro de téléphone:");
-		String phone= scan.next();
-		
-		myLibrary.registerCustomer(password, lastName, firstName, email, address, phone);
-		int id = myLibrary.existCustomer(email,password);
-		login = email;
-		idCustomer = id;
+			System.out.println("Saisissez votre mot de passe:");
+			
+			String password = scan.next();
+			System.out.println("Saisissez votre Nom:");
+			
+			while(!Pattern.matches(NAME_PATTERN,scan.next())) 			
+				System.out.println("Veuillez saisir un nom valide");
+			String lastName= scan.nextLine();
+			
+			System.out.println("Saisissez votre prénom:");
+			while(!Pattern.matches(NAME_PATTERN,scan.next())) 			
+				System.out.println("Veuillez saisir un prénom valide");
+			String firstName= scan.nextLine();
+			
+			System.out.println("Saisissez votre email:");
+			while(!Pattern.matches(EMAIL_PATTERN,scan.next())) 			
+				System.out.println("Veuillez saisir un email valide");			
+			String email= scan.nextLine();
+			
+			System.out.println("Saisissez votre address:");
+			scan.nextLine();
+			while(!Pattern.matches(ADDRESS_PATTERN,scan.next())) 			
+				System.out.println("Veuillez saisir une adresse valide");			
+			String address = scan.nextLine();
+			
+			System.out.println("Saisissez votre numéro de téléphone:");
+			while(!Pattern.matches(PHONE_PATTERN,scan.next())) 			
+				System.out.println("Veuillez saisir un Nom valide");
+			String phone= scan.nextLine();
+
+			myLibrary.registerCustomer(password, lastName, firstName, email, address, phone);
+			int id = myLibrary.existCustomer(email,password);
+			login = email;
+			customerId = id;
 		}
-		
+
 	}
-	
-	
+
+	/**
+	 * méthode qui permet à un utilisateur de se connecter 
+	 */
 	private static void connection() {
 		if(login != null)	System.out.println("vous êtes déjà connecté");
 		else {
@@ -214,17 +261,22 @@ public class ELibraryApp {
 			int id = myLibrary.existCustomer(log,pwd);
 			if(id > 0)	{
 				login = log;
-				idCustomer = id;
+				customerId = id;
 			}
 			else System.out.println("login ou password incorrect");
 		}
 	}
-
+	/**
+	 * méthode qui permet le contrôle de la saisie, affiche un message si la valeur saisie n'est pas un entier
+	 * @return l'entier saisie
+	 */
 	public static int scanInt() {
+
 		while(!scan.hasNextInt()) {
 			System.out.println("saisissez une valeur entière svp");
 			scan.next();
 		}
 		return scan.nextInt();
 	}
+
 }
