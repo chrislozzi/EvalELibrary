@@ -8,6 +8,7 @@ package fr.fms;
 
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import fr.fms.business.IELibraryImpl;
@@ -15,10 +16,10 @@ import fr.fms.entities.Book;
 import fr.fms.entities.Theme;
 
 public class ELibraryApp {
-	private static final String EMAIL_PATTERN = "^[A-Za-z0-9._-]+@[A-Za-z0-9._-]+\\.[a-z][a-z]+$";
-	private static final String PHONE_PATTERN = "^(?:(?:\\+|00)33|0)\\s*[1-9](?:[\\s.-]*\\d{2}){4}$";
-	private static final String NAME_PATTERN = "\\p{L}*(-\\p{L}*)*";
-	private static final String ADDRESS_PATTERN = "[0-9]{1,3}(?:(?:[,. ]?){1,2}[-a-zA-Zàâäéèêëïîôöùûüç]+)+";
+	public static final String EMAIL_REGEX = "^[A-Za-z0-9._-]+@[A-Za-z0-9._-]+\\.[a-z][a-z]+$";
+	private static final String PHONE_REGEX = "^(?:(?:\\+|00)33|0)\\s*[1-9](?:[\\s.-]*\\d{2}){4}$";
+	private static final String NAME_REGEX = "^([a-z]+(( |')[a-z]+)*)+([-]([a-z]+(( |')[a-z]+)*)+)*$";
+	private static final String ADDRESS_REGEX = "[0-9]{1,3}(?:(?:[,. ]?){1,2}[-a-zA-Z]+)+";
 
 	private static Scanner scan = new Scanner(System.in); 
 	private static IELibraryImpl myLibrary = new IELibraryImpl();	
@@ -209,35 +210,29 @@ public class ELibraryApp {
 	private static void newCustomer() {
 		if(login != null)	System.out.println("vous êtes déjà connecté");
 		else {
-			System.out.println("Saisissez votre mot de passe:");
-			
+			System.out.println("Saisissez votre mot de passe:");			
 			String password = scan.next();
-			System.out.println("Saisissez votre Nom:");
 			
-			while(!Pattern.matches(NAME_PATTERN,scan.next())) 			
-				System.out.println("Veuillez saisir un nom valide");
-			String lastName= scan.nextLine();
+			
+			System.out.println("Saisissez votre Nom:");			
+			String lastName= getValidInput(scan.next(),NAME_REGEX);
+			
 			
 			System.out.println("Saisissez votre prénom:");
-			while(!Pattern.matches(NAME_PATTERN,scan.next())) 			
-				System.out.println("Veuillez saisir un prénom valide");
-			String firstName= scan.nextLine();
+			String firstName= getValidInput(scan.next(),NAME_REGEX);
 			
-			System.out.println("Saisissez votre email:");
-			while(!Pattern.matches(EMAIL_PATTERN,scan.next())) 			
-				System.out.println("Veuillez saisir un email valide");			
-			String email= scan.nextLine();
+			
+			System.out.println("Saisissez votre email:");			
+			String email= getValidInput(scan.next(),EMAIL_REGEX);
+			
 			
 			System.out.println("Saisissez votre address:");
-			scan.nextLine();
-			while(!Pattern.matches(ADDRESS_PATTERN,scan.next())) 			
-				System.out.println("Veuillez saisir une adresse valide");			
+			scan.nextLine();	
 			String address = scan.nextLine();
 			
+			
 			System.out.println("Saisissez votre numéro de téléphone:");
-			while(!Pattern.matches(PHONE_PATTERN,scan.next())) 			
-				System.out.println("Veuillez saisir un Nom valide");
-			String phone= scan.nextLine();
+			String phone= getValidInput(scan.next(),PHONE_REGEX);
 			
 			if(myLibrary.existCustomer(email,password)!=0)
 				System.out.println("Ce compte existe déjà");
@@ -258,7 +253,7 @@ public class ELibraryApp {
 		if(login != null)	System.out.println("vous êtes déjà connecté");
 		else {
 			System.out.println("saisissez votre login(email) : ");
-			String log = scan.next();
+			String log = getValidInput(scan.next(),EMAIL_REGEX);
 			System.out.println("saisissez votre password : ");
 			String pwd = scan.next();
 
@@ -267,7 +262,11 @@ public class ELibraryApp {
 				login = log;
 				customerId = id;
 			}
-			else System.out.println("login ou password incorrect");
+			else {
+				System.out.println("password incorrect");
+				System.out.println("Souhaitez vous créer un compte? Oui/Non:");
+				if(scan.next().equalsIgnoreCase("Oui")) newCustomer();
+			}
 		}
 	}
 	/**
@@ -282,5 +281,22 @@ public class ELibraryApp {
 		}
 		return scan.nextInt();
 	}
-
+	
+	/**
+	 * méthode qui contrôle la saisie pour: le nom, le prénom, le mail, le numéro de téléphone.
+	 * @param input
+	 * @param inputPatternRegex
+	 * @return validInput
+	 */
+	public static String getValidInput(String input, String inputPatternRegex) {	
+		
+		while(!input.matches(inputPatternRegex)) {	
+			
+			System.out.println("Saisie invalide");
+			input = scan.next();
+			
+		}
+		String validInput = input;
+		return validInput;
+	}
 }
